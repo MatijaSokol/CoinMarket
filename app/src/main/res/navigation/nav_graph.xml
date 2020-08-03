@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/coinsFragment">
+
+    <fragment
+        android:id="@+id/coinsFragment"
+        android:name="hr.ferit.matijasokol.coinmarket.ui.fragments.coins.CoinsFragment"
+        android:label="CoinMarket" >
+        <action
+            android:id="@+id/action_coinsFragment_to_detailsFragment"
+            app:destination="@id/detailsFragment"
+            app:enterAnim="@anim/fragment_fade_enter"
+            app:exitAnim="@anim/fragment_fade_exit"
+            app:popEnterAnim="@anim/fragment_fade_enter"
+            app:popExitAnim="@anim/fragment_fade_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/detailsFragment"
+        android:name="hr.ferit.matijasokol.coinmarket.ui.fragments.details.DetailsFragment"
+        android:label="@string/label" >
+        <argument
+            android:name="coin"
+            app:argType="hr.ferit.matijasokol.coinmarket.models.Coin" />
+        <argument
+            android:name="name"
+            app:argType="string" />
+    </fragment>
+</navigation>
