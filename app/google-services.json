@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "695664600182",
+    "firebase_url": "https://coinmarket-2fe28.firebaseio.com",
+    "project_id": "coinmarket-2fe28",
+    "storage_bucket": "coinmarket-2fe28.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:695664600182:android:78ccb5f511af8faacbeb57",
+        "android_client_info": {
+          "package_name": "hr.ferit.matijasokol.coinmarket"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "695664600182-duvt6037a18icthb8ohms6fsvphhfgin.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hr.ferit.matijasokol.coinmarket",
+            "certificate_hash": "8c297266995d66db00560ec9c08badb3f93c5a35"
+          }
+        },
+        {
+          "client_id": "695664600182-ckc97nb2i47b92f8i32atcgkdt01vnu3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCYvLUB6L0CNsRQp6M3DSvcEaGft0YBzak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "695664600182-ckc97nb2i47b92f8i32atcgkdt01vnu3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
