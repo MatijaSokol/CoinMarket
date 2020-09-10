@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -33,6 +34,7 @@ import hr.ferit.matijasokol.coinmarket.other.Constants.WEEK_LENGTH
 import hr.ferit.matijasokol.coinmarket.repository.CoinMarketRepository
 import hr.ferit.matijasokol.coinmarket.ui.coins.CoinsViewModel
 import hr.ferit.matijasokol.coinmarket.ui.coins.CoinsViewModelProviderFactory
+import kotlinx.android.synthetic.main.fragment_coins.*
 import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -233,7 +235,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             var day = currentDay - i
             if (day < 1) {
                 day = lastMonthLen - i + currentDay
-                list.add(Entry(day.toFloat(), data[data.size - 1 - i]))
+                val index = data.size - 1 - i
+                if (index < 0) {
+                    return
+                }
+                list.add(Entry(day.toFloat(), data[index]))
             } else {
                 list.add(Entry(day.toFloat(), data[data.size - 1 - i]))
             }
@@ -291,6 +297,10 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     }
 
     private fun setLineChart(data: List<Entry>) {
+        if (data.isEmpty() || data.map { it.y }.any { it.isNaN() }) {
+            detailsRootLayout.showSnackbar(getString(R.string.no_values_category))
+        }
+
         val changedData = mutableListOf<Entry>()
         data.forEach {
             changedData.add(Entry(data.indexOf(it).toFloat(), it.y))
