@@ -7,13 +7,12 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.transition.TransitionInflater
 import com.github.mikephil.charting.animation.Easing
@@ -23,30 +22,25 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
+import dagger.hilt.android.AndroidEntryPoint
 import hr.ferit.matijasokol.coinmarket.R
-import hr.ferit.matijasokol.coinmarket.db.CoinDatabase
 import hr.ferit.matijasokol.coinmarket.models.Coin
 import hr.ferit.matijasokol.coinmarket.models.CoinInfoResponse
 import hr.ferit.matijasokol.coinmarket.models.Resource
 import hr.ferit.matijasokol.coinmarket.other.*
 import hr.ferit.matijasokol.coinmarket.other.Constants.CHART_ANIM_DURATION
 import hr.ferit.matijasokol.coinmarket.other.Constants.WEEK_LENGTH
-import hr.ferit.matijasokol.coinmarket.repository.CoinMarketRepository
-import hr.ferit.matijasokol.coinmarket.ui.coins.CoinsViewModel
-import hr.ferit.matijasokol.coinmarket.ui.coins.CoinsViewModelProviderFactory
-import kotlinx.android.synthetic.main.fragment_coins.*
 import kotlinx.android.synthetic.main.fragment_details.*
 import java.util.*
 import kotlin.collections.ArrayList
 
+@AndroidEntryPoint
 class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val args: DetailsFragmentArgs by navArgs()
     private lateinit var coin: Coin
 
-    private val repository by lazy { CoinMarketRepository(CoinDatabase(requireContext())) }
-    private val viewModelProviderFactory by lazy { CoinsViewModelProviderFactory(requireActivity().application, repository) }
-    private val viewModel by lazy { ViewModelProvider(this, viewModelProviderFactory).get(CoinsViewModel::class.java) }
+    private val viewModel: DetailsViewModel by viewModels()
 
     private val dailyValues by lazy { mutableListOf<Entry>() }
     private val weekValues by lazy { mutableListOf<Entry>() }
@@ -75,7 +69,8 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         observeChanges()
 
         viewModel.getCoinDetails(coin.id)
-        viewModel.getCoinInfo(coin.id)
+        /*viewModel.getCoinDetails(coin.id)
+        viewModel.getCoinInfo(coin.id)*/
     }
 
     private fun setListeners() {

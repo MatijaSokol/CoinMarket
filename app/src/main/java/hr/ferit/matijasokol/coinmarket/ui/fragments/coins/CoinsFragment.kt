@@ -4,34 +4,33 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.FragmentNavigator
 import androidx.navigation.fragment.FragmentNavigatorExtras
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import com.google.android.material.snackbar.Snackbar
+import dagger.hilt.android.AndroidEntryPoint
 import hr.ferit.matijasokol.coinmarket.R
-import hr.ferit.matijasokol.coinmarket.db.CoinDatabase
 import hr.ferit.matijasokol.coinmarket.models.Coin
 import hr.ferit.matijasokol.coinmarket.models.Resource
-import hr.ferit.matijasokol.coinmarket.other.*
 import hr.ferit.matijasokol.coinmarket.other.Constants.RECYCLER_COLUMNS_NUMBER
-import hr.ferit.matijasokol.coinmarket.repository.CoinMarketRepository
+import hr.ferit.matijasokol.coinmarket.other.gone
+import hr.ferit.matijasokol.coinmarket.other.hasInternetConnection
+import hr.ferit.matijasokol.coinmarket.other.showSnackbar
+import hr.ferit.matijasokol.coinmarket.other.visible
 import hr.ferit.matijasokol.coinmarket.ui.adapters.CoinsAdapter
 import hr.ferit.matijasokol.coinmarket.ui.coins.CoinsViewModel
-import hr.ferit.matijasokol.coinmarket.ui.coins.CoinsViewModelProviderFactory
 import kotlinx.android.synthetic.main.fragment_coins.*
 
+@AndroidEntryPoint
 class CoinsFragment : Fragment(R.layout.fragment_coins) {
 
     private val coinsAdapter by lazy { CoinsAdapter { coin, imageView -> onItemClicked(coin, imageView) } }
     private var firstRun = true
 
-    private val repository by lazy { CoinMarketRepository(CoinDatabase(requireContext())) }
-    private val viewModelProviderFactory by lazy { CoinsViewModelProviderFactory(requireActivity().application, repository) }
-    private val viewModel by lazy { ViewModelProvider(this, viewModelProviderFactory).get(CoinsViewModel::class.java) }
+    private val viewModel: CoinsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

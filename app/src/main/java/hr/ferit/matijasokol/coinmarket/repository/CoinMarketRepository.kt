@@ -1,20 +1,24 @@
 package hr.ferit.matijasokol.coinmarket.repository
 
-import hr.ferit.matijasokol.coinmarket.db.CoinDatabase
+import hr.ferit.matijasokol.coinmarket.db.CoinDao
 import hr.ferit.matijasokol.coinmarket.models.Coin
-import hr.ferit.matijasokol.coinmarket.networking.RetrofitInstance
+import hr.ferit.matijasokol.coinmarket.networking.CoinsMarketApi
+import javax.inject.Inject
 
-class CoinMarketRepository(private val db: CoinDatabase) {
+class CoinMarketRepository @Inject constructor(
+    private val coinDao: CoinDao,
+    private val api: CoinsMarketApi
+) {
 
-    suspend fun getCoins() = RetrofitInstance.api.getCoins()
+    suspend fun getCoins() = api.getCoins()
 
-    suspend fun getYearCoinDetails(id: String) = RetrofitInstance.api.getYearCoinDetails(id)
+    suspend fun getYearCoinDetails(id: String) = api.getYearCoinDetails(id)
 
-    suspend fun getLastDayCoinDetails(id: String) = RetrofitInstance.api.getLastDayCoinDetails(id)
+    suspend fun getLastDayCoinDetails(id: String) = api.getLastDayCoinDetails(id)
 
-    suspend fun getCoinInfo(id: String) = RetrofitInstance.api.getCoinInfo(id)
+    suspend fun getCoinInfo(id: String) = api.getCoinInfo(id)
 
-    suspend fun upsertList(coins: List<Coin>) = coins.forEach { db.getCoinDao().upsert(it) }
+    suspend fun upsertList(coins: List<Coin>) = coins.forEach { coinDao.upsert(it) }
 
-    suspend fun getSavedCoins() = db.getCoinDao().getAllCoins()
+    suspend fun getSavedCoins() = coinDao.getAllCoins()
 }

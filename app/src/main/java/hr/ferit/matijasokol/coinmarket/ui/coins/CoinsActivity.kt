@@ -2,14 +2,13 @@ package hr.ferit.matijasokol.coinmarket.ui.coins
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import dagger.hilt.android.AndroidEntryPoint
 import hr.ferit.matijasokol.coinmarket.R
-import hr.ferit.matijasokol.coinmarket.db.CoinDatabase
-import hr.ferit.matijasokol.coinmarket.repository.CoinMarketRepository
 
+@AndroidEntryPoint
 class CoinsActivity : AppCompatActivity() {
 
     private val navController by lazy { findNavController(this, R.id.navHostFragment) }
