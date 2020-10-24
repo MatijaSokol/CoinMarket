@@ -7,6 +7,7 @@ import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -69,26 +70,46 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         observeChanges()
 
         viewModel.getCoinDetails(coin.id)
-        /*viewModel.getCoinDetails(coin.id)
-        viewModel.getCoinInfo(coin.id)*/
     }
+
+    private val TAG = "[DEBUG] DetailsFra"
 
     private fun setListeners() {
         textViewDay.setOnClickListener {
             setTextViewsColor(textViewDay)
-            setLineChart(dailyValues)
+            try {
+                setLineChart(dailyValues)
+            } catch (e: Exception) {
+                Log.d(TAG, "daily")
+                detailsRootLayout.showSnackbar("daily")
+            }
         }
         textViewWeek.setOnClickListener {
             setTextViewsColor(textViewWeek)
-            setLineChart(weekValues)
+            try {
+                setLineChart(weekValues)
+            } catch (e: Exception) {
+                Log.d(TAG, "week")
+                detailsRootLayout.showSnackbar("week")
+            }
         }
         textViewMonth.setOnClickListener {
             setTextViewsColor(textViewMonth)
-            setLineChart(monthValues)
+            try {
+                setLineChart(monthValues)
+            } catch (e: Exception) {
+                Log.d(TAG, "month")
+                detailsRootLayout.showSnackbar("month")
+            }
         }
         textViewYear.setOnClickListener {
             setTextViewsColor(textViewYear)
-            setLineChart(yearValues)
+            try {
+                setLineChart(yearValues)
+            } catch (e: Exception) {
+                Log.d(TAG, "year")
+                detailsRootLayout.showSnackbar("year")
+            }
         }
     }
 
