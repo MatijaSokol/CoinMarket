@@ -10,6 +10,7 @@ import hr.ferit.matijasokol.coinmarket.R
 import hr.ferit.matijasokol.coinmarket.app.CoinMarketApplication
 import hr.ferit.matijasokol.coinmarket.models.Coin
 import hr.ferit.matijasokol.coinmarket.models.Resource
+import hr.ferit.matijasokol.coinmarket.other.SingleLiveEvent
 import hr.ferit.matijasokol.coinmarket.other.hasInternetConnection
 import hr.ferit.matijasokol.coinmarket.repository.CoinMarketRepository
 import kotlinx.coroutines.Dispatchers.IO
@@ -21,7 +22,7 @@ class CoinsViewModel @ViewModelInject constructor(
     private val repository: CoinMarketRepository
 ) : AndroidViewModel(app) {
 
-    private val _coins = MutableLiveData<Resource<List<Coin>>>()
+    private val _coins = SingleLiveEvent<Resource<List<Coin>>>()
 
     val coins: LiveData<Resource<List<Coin>>>
         get() = _coins
