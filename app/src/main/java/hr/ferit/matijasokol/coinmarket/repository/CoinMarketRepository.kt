@@ -4,19 +4,21 @@ import hr.ferit.matijasokol.coinmarket.db.CoinDao
 import hr.ferit.matijasokol.coinmarket.models.Coin
 import hr.ferit.matijasokol.coinmarket.networking.CoinsMarketApi
 import javax.inject.Inject
+import javax.inject.Singleton
 
+@Singleton
 class CoinMarketRepository @Inject constructor(
     private val coinDao: CoinDao,
-    private val api: CoinsMarketApi
+    private val coinApi: CoinsMarketApi
 ) {
 
-    suspend fun getCoins() = api.getCoins()
+    suspend fun getCoins() = coinApi.getCoins()
 
-    suspend fun getYearCoinDetails(id: String) = api.getYearCoinDetails(id)
+    suspend fun getYearCoinDetails(id: String) = coinApi.getYearCoinDetails(id)
 
-    suspend fun getLastDayCoinDetails(id: String) = api.getLastDayCoinDetails(id)
+    suspend fun getLastDayCoinDetails(id: String) = coinApi.getLastDayCoinDetails(id)
 
-    suspend fun getCoinInfo(id: String) = api.getCoinInfo(id)
+    suspend fun getCoinInfo(id: String) = coinApi.getCoinInfo(id)
 
     suspend fun upsertList(coins: List<Coin>) = coins.forEach { coinDao.upsert(it) }
 

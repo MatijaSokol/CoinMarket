@@ -18,4 +18,5 @@
     <string name="low_24">Low 24h</string>
     <string name="hash_alg">Hash alg</string>
     <string name="no_values_category">No values for this category</string>
+    <string name="no_data">No data</string>
 </resources>

@@ -72,43 +72,37 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         viewModel.getCoinDetails(coin.id)
     }
 
-    private val TAG = "[DEBUG] DetailsFra"
-
     private fun setListeners() {
         textViewDay.setOnClickListener {
-            setTextViewsColor(textViewDay)
-            try {
+            if (isDataValid(dailyValues)) {
+                setTextViewsColor(textViewDay)
                 setLineChart(dailyValues)
-            } catch (e: Exception) {
-                Log.d(TAG, "daily")
-                detailsRootLayout.showSnackbar("daily")
+            } else {
+                detailsRootLayout.showSnackbar(getString(R.string.no_values_category))
             }
         }
         textViewWeek.setOnClickListener {
-            setTextViewsColor(textViewWeek)
-            try {
+            if (isDataValid(weekValues)) {
+                setTextViewsColor(textViewWeek)
                 setLineChart(weekValues)
-            } catch (e: Exception) {
-                Log.d(TAG, "week")
-                detailsRootLayout.showSnackbar("week")
+            } else {
+                detailsRootLayout.showSnackbar(getString(R.string.no_values_category))
             }
         }
         textViewMonth.setOnClickListener {
-            setTextViewsColor(textViewMonth)
-            try {
+            if (isDataValid(monthValues)) {
+                setTextViewsColor(textViewMonth)
                 setLineChart(monthValues)
-            } catch (e: Exception) {
-                Log.d(TAG, "month")
-                detailsRootLayout.showSnackbar("month")
+            } else {
+                detailsRootLayout.showSnackbar(getString(R.string.no_values_category))
             }
         }
         textViewYear.setOnClickListener {
-            setTextViewsColor(textViewYear)
-            try {
+            if (isDataValid(yearValues)) {
+                setTextViewsColor(textViewYear)
                 setLineChart(yearValues)
-            } catch (e: Exception) {
-                Log.d(TAG, "year")
-                detailsRootLayout.showSnackbar("year")
+            } else {
+                detailsRootLayout.showSnackbar(getString(R.string.no_values_category))
             }
         }
     }
@@ -161,9 +155,11 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
             when(response) {
                 is Resource.Success -> {
                     response.data?.let {
-                        setWeekData(it)
-                        setYearData(it)
-                        setMonthData(it)
+                        if (it.size >= 365) {
+                            setWeekData(it)
+                            setYearData(it)
+                            setMonthData(it)
+                        }
                     }
                 }
                 is Resource.Error -> {
@@ -199,6 +195,9 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         }
 
         textViewDesc.text = response.description.english.trim().fromHtmlToText()
+        if (textViewDesc.text.isBlank()) {
+            textViewDesc.text = getString(R.string.no_data)
+        }
         textViewHighPrice.apply {
             text = highPriceSpannable
             visible()
@@ -312,11 +311,14 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
     }
 
-    private fun setLineChart(data: List<Entry>) {
+    private fun isDataValid(data: List<Entry>): Boolean {
         if (data.isEmpty() || data.map { it.y }.any { it.isNaN() }) {
-            detailsRootLayout.showSnackbar(getString(R.string.no_values_category))
+            return false
         }
+        return true
+    }
 
+    private fun setLineChart(data: List<Entry>) {
         val changedData = mutableListOf<Entry>()
         data.forEach {
             changedData.add(Entry(data.indexOf(it).toFloat(), it.y))
