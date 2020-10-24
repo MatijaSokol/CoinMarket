@@ -28,8 +28,6 @@ import kotlinx.android.synthetic.main.fragment_coins.*
 class CoinsFragment : Fragment(R.layout.fragment_coins) {
 
     private val coinsAdapter by lazy { CoinsAdapter { coin, imageView -> onItemClicked(coin, imageView) } }
-    private var firstRun = true
-
     private val viewModel: CoinsViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,10 +37,7 @@ class CoinsFragment : Fragment(R.layout.fragment_coins) {
         observeChanges()
         setSwiper()
 
-        if (firstRun) {
-            viewModel.getCoins()
-            firstRun = false
-        }
+        viewModel.getCoins()
     }
 
     private fun setSwiper() {
