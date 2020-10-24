@@ -14,6 +14,7 @@ import hr.ferit.matijasokol.coinmarket.other.hasInternetConnection
 import hr.ferit.matijasokol.coinmarket.repository.CoinMarketRepository
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import java.io.IOException
 
@@ -36,11 +37,11 @@ class DetailsViewModel @ViewModelInject constructor(
         get() = _coinInfo
 
     fun getCoinDetails(id: String) = viewModelScope.launch(IO) {
-        async {
-            coinInfoCall(id)
-            yearCoinDetailsCall(id)
-            lastDayCoinDetailsCall(id)
-        }
+        awaitAll(
+            async { coinInfoCall(id) },
+            async { yearCoinDetailsCall(id) },
+            async { lastDayCoinDetailsCall(id) }
+        )
     }
 
     private suspend fun lastDayCoinDetailsCall(id: String) {
